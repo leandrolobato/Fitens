@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitLens - A nova geração de academias</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --green: #00ff88;
+  --green-dim: #00cc6a;
+  --bg: #0a0a0a;
+  --bg2: #111111;
+  --bg3: #161616;
+  --text: #ffffff;
+  --muted: rgba(255,255,255,0.55);
+  --border: rgba(255,255,255,0.07);
+  --card-radius: 20px;
+  --input-radius: 12px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 3px; }
+
+/* ── HEADER ── */
+header {
+  position: fixed;
+  width: 100%;
+  padding: 18px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  z-index: 1000;
+  transition: padding 0.3s;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: var(--green);
+}
+
+nav { display: flex; align-items: center; gap: 36px; }
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.25s;
+}
+nav a:hover { color: var(--green); }
+
+.menu-mobile { display: none; font-size: 26px; cursor: pointer; color: var(--text); background: none; border: none; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 10% 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&q=80') center/cover no-repeat;
+  filter: brightness(0.2);
+  transform: scale(1.04);
+  animation: zoomBg 18s ease-in-out infinite alternate;
+}
+
+@keyframes zoomBg { from { transform: scale(1.04); } to { transform: scale(1.12); } }
+
+.hero-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 55% at 50% 65%, rgba(0,255,136,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 820px; }
+
+.hero-badge {
+  display: inline-block;
+  background: rgba(0,255,136,0.12);
+  border: 1px solid rgba(0,255,136,0.3);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 9vw, 100px);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  animation: fadeUp 1s ease 0.15s both;
+}
+
+.hero h1 span { color: var(--green); }
+
+.hero p {
+  margin: 24px 0 40px;
+  font-size: clamp(15px, 2vw, 18px);
+  color: var(--muted);
+  font-weight: 500;
+  animation: fadeUp 1s ease 0.3s both;
+}
+
+.hero-actions {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.45s both;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--green);
+  color: #000;
+  padding: 15px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+  box-shadow: 0 0 30px rgba(0,255,136,0.25);
+}
+.btn:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(0,255,136,0.35);
+}
+
+.btn-outline {
+  display: inline-block;
+  background: transparent;
+  color: var(--text);
+  padding: 14px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: border-color 0.25s, color 0.25s, transform 0.2s;
+}
+.btn-outline:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 60px; margin-top: 70px;
+  animation: fadeUp 1s ease 0.6s both;
+}
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 38px; color: var(--green); line-height:1; }
+.stat-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+
+/* ── SECTIONS ── */
+section { padding: 110px 10%; }
+
+.section-tag {
+  display: inline-block;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 5vw, 56px);
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.section-sub {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg3);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+thead {
+  background: rgba(0,255,136,0.08);
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+th {
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.action-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.action-edit { background: rgba(0,255,136,0.14); color: var(--green); }
+.action-delete { background: rgba(255,255,255,0.08); color: #ff6b6b; }
+
+/* ── SOBRE ── */
+#sobre { background: var(--bg2); }
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-top: 60px;
+}
+.sobre-img {
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+}
+.sobre-img img { width:100%; height:100%; object-fit:cover; display:block; filter: brightness(0.85); }
+.sobre-img::after {
+  content:'';
+  position:absolute; inset:0;
+  border-radius:24px;
+  border: 1px solid rgba(0,255,136,0.15);
+}
+.sobre-features { display:flex; flex-direction:column; gap:24px; margin-top:36px; }
+.feature-item { display:flex; gap:16px; align-items:flex-start; }
+.feature-icon {
+  width:40px; height:40px; border-radius:10px;
+  background: rgba(0,255,136,0.1);
+  border: 1px solid rgba(0,255,136,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.feature-text h4 { font-size:14px; font-weight:700; margin-bottom:4px; }
+.feature-text p { font-size:13px; color:var(--muted); line-height:1.6; }
+
+/* ── PLANOS ── */
+#planos { background: var(--bg); }
+.planos-header { text-align:center; margin-bottom:60px; }
+.planos-header .section-sub { margin:0 auto; }
+
+.cards {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 40px 36px;
+  border-radius: var(--card-radius);
+  width: 300px;
+  text-align: center;
+  transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity:0; transition:opacity 0.35s;
+}
+.card:hover { transform: translateY(-8px); border-color: rgba(0,255,136,0.25); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+.card:hover::before { opacity:1; }
+
+.card.destaque {
+  border-color: rgba(0,255,136,0.3);
+  background: linear-gradient(160deg, #161f1a 0%, var(--bg3) 100%);
+}
+.card.destaque::before { opacity:1; }
+
+.badge-destaque {
+  display:inline-block;
+  background: var(--green);
+  color: #000;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:4px 14px;
+  border-radius:50px;
+  margin-bottom:16px;
+}
+
+.card h3 { font-size:18px; font-weight:700; margin-bottom:6px; }
+.card .card-sub { font-size:12px; color:var(--muted); margin-bottom:20px; }
+.price { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--green); line-height:1; margin-bottom:6px; }
+.price-period { font-size:12px; color:var(--muted); margin-bottom:24px; }
+.card-features { list-style:none; margin-bottom:30px; }
+.card-features li { font-size:13px; color:var(--muted); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.card-features li::before { content:'✓'; color:var(--green); font-weight:700; }
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.card-skeleton { width:300px; height:340px; border-radius:var(--card-radius); }
+
+/* ── FORMULÁRIO MATRÍCULA ── */
+.form-box {
+  max-width: 520px;
+  margin: 70px auto 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 48px 44px;
+}
+.form-box h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing:1px;
+  margin-bottom:8px;
+}
+.form-box p { font-size:13px; color:var(--muted); margin-bottom:30px; }
+
+.input-group { margin-bottom: 16px; }
+.input-group label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--input-radius);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.25s, background 0.25s;
+  outline: none;
+  appearance: none;
+}
+.input-group input:focus,
+.input-group select:focus {
+  border-color: rgba(0,255,136,0.4);
+  background: rgba(0,255,136,0.04);
+}
+.input-group select option { background: #1a1a1a; }
+
+.btn-full { width:100%; margin-top:10px; font-size:15px; padding:17px; border-radius:var(--input-radius); }
+
+.form-msg {
+  text-align:center;
+  margin-top:16px;
+  font-size:14px;
+  font-weight:600;
+  min-height:20px;
+  transition:opacity 0.3s;
+}
+.form-msg.success { color: var(--green); }
+.form-msg.error   { color: #ff4e4e; }
+
+/* ── UNIDADES ── */
+#unidades { background: var(--bg2); }
+.unidades-header { text-align:center; margin-bottom:60px; }
+.unidades-header .section-sub { margin:0 auto; }
+
+.card-unidade {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 36px;
+  border-radius: var(--card-radius);
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.card-unidade:hover { transform: translateY(-6px); border-color: rgba(0,255,136,0.25); }
+.unidade-icon { font-size:32px; margin-bottom:16px; }
+.card-unidade h3 { font-size:16px; font-weight:700; margin-bottom:8px; }
+.card-unidade .cidade { font-size:13px; color:var(--muted); }
+.card-unidade .estado-badge {
+  display:inline-block;
+  margin-top:12px;
+  padding:4px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:700;
+  background:rgba(0,255,136,0.1);
+  color:var(--green);
+  border:1px solid rgba(0,255,136,0.2);
+}
+
+/* ── FRANQUIA ── */
+#franquia {
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+#franquia::before {
+  content:'';
+  position:absolute;
+  top:-200px; left:50%; transform:translateX(-50%);
+  width:700px; height:700px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.franquia-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+  position:relative;
+}
+
+.franquia-info { padding-top:10px; }
+.franquia-info .section-sub { margin-top:16px; margin-bottom:36px; }
+
+.franquia-numeros { display:flex; gap:40px; flex-wrap:wrap; margin-bottom:40px; }
+.numero-item { }
+.numero-val { font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--green); line-height:1; }
+.numero-label { font-size:12px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+
+.franquia-beneficios { display:flex; flex-direction:column; gap:14px; }
+.beneficio {
+  display:flex; gap:14px; align-items:center;
+  padding:16px 20px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  font-size:14px;
+  font-weight:600;
+  transition:border-color 0.25s;
+}
+.beneficio:hover { border-color:rgba(0,255,136,0.25); }
+.beneficio span:first-child { font-size:20px; }
+
+/* ── FOOTER ── */
+footer {
+  background: #000;
+  padding: 50px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-top: 1px solid var(--border);
+}
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:3px; color:var(--green); }
+.footer-copy { font-size:13px; color:var(--muted); }
+.footer-links { display:flex; gap:24px; }
+.footer-links a { font-size:13px; color:var(--muted); text-decoration:none; transition:color 0.25s; }
+.footer-links a:hover { color:var(--green); }
+
+/* ── WHATSAPP FLOAT ── */
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: var(--green);
+  color: #000;
+  padding: 14px 22px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 13px;
+  text-decoration: none;
+  box-shadow: 0 8px 30px rgba(0,255,136,0.35);
+  transition: transform 0.25s, box-shadow 0.25s;
+  z-index: 999;
+  display: flex; align-items:center; gap:8px;
+}
+.whatsapp-float:hover { transform: scale(1.07); box-shadow: 0 12px 40px rgba(0,255,136,0.5); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 10%;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.reveal {
+  opacity:0;
+  transform:translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── MOBILE ── */
+@media(max-width:900px) {
+  .sobre-grid, .franquia-grid { grid-template-columns:1fr; gap:40px; }
+  .sobre-img { max-height:300px; }
+}
+
+@media(max-width:768px) {
+  nav { display:none; flex-direction:column; background:#0d0d0d; border:1px solid var(--border); position:absolute; top:70px; right:8%; width:200px; padding:20px; border-radius:16px; gap:16px; }
+  nav.active { display:flex; }
+  .menu-mobile { display:block; }
+  header { padding:16px 6%; }
+  section { padding:80px 6%; }
+  .hero-stats { gap:30px; flex-wrap:wrap; }
+  .form-box { padding:32px 24px; }
+  footer { flex-direction:column; text-align:center; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">FITLENS</div>
+  <button class="menu-mobile" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  <nav id="menu">
+    <a href="#sobre">Sobre</a>
+    <a href="#planos">Planos</a>
+    <a href="#unidades">Unidades</a>
+    <a href="#franquia">Franquia</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏋️ Fundadores com condições especiais</div>
+    <h1>A nova geração<br>de <span>academias</span>.</h1>
+    <p>Estrutura premium, preço acessível e padrão de qualidade replicável.<br>Comece agora com o plano fundador.</p>
+    <div class="hero-actions">
+      <a href="#planos" class="btn">Ver planos</a>
+      <a href="#franquia" class="btn-outline">Ser franqueado</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Unidades</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Climatizado</div>
+      </div>
+      <div>
+        <div class="stat-num">24h</div>
+        <div class="stat-label">Em breve</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="reveal">
+    <div class="sobre-grid">
+      <div class="sobre-img">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80" alt="Academia FitLens">
+      </div>
+      <div>
+        <span class="section-tag">Quem somos</span>
+        <h2 class="section-title">Nascemos para ser grande.</h2>
+        <p class="section-sub">A FitLens nasce com visão de rede. Estrutura moderna, preço acessível e padrão de qualidade replicável. Começamos grandes. Crescemos maiores ainda.</p>
+        <div class="sobre-features">
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-text">
+              <h4>Equipamentos de última geração</h4>
+              <p>Maquinário premium selecionado para máxima eficiência nos treinos.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <div class="feature-text">
+              <h4>Professores especializados</h4>
+              <p>Equipe técnica dedicada ao seu resultado e evolução.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🌡️</div>
+            <div class="feature-text">
+              <h4>Ambiente climatizado</h4>
+              <p>Conforto total em todos os espaços para o seu melhor desempenho.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PLANOS -->
+<section id="planos">
+  <div class="planos-header reveal">
+    <span class="section-tag">Nossos planos</span>
+    <h2 class="section-title">Escolha o seu.</h2>
+    <p class="section-sub">Planos pensados para todos os perfis. Cancele quando quiser, sem burocracia.</p>
+  </div>
+
+  <div class="cards" id="cards-planos">
+    <!-- skeletons enquanto carrega -->
+    <div class="skeleton card-skeleton"></div>
+    <div class="skeleton card-skeleton"></div>
+  </div>
+
+  <!-- Formulário de Matrícula -->
+  <div class="form-box reveal">
+    <h3>Matricule-se agora</h3>
+    <p>Preencha abaixo e entraremos em contato para confirmar sua vaga.</p>
+    <div class="input-group">
+      <label>Nome completo</label>
+      <input id="mat-nome" type="text" placeholder="Ex: João da Silva">
+    </div>
+    <div class="input-group">
+      <label>WhatsApp</label>
+      <input id="mat-tel" type="text" placeholder="(31) 99999-9999">
+    </div>
+    <div class="input-group">
+      <label>Plano desejado</label>
+      <select id="mat-plano">
+        <option value="">Carregando planos...</option>
+      </select>
+    </div>
+    <button id="mat-btn" class="btn btn-full" onclick="enviarMatricula()">Quero me matricular →</button>
+    <button id="mat-cancel" class="btn btn-outline" style="margin-top:12px; display:none;" onclick="cancelarEdicaoMatricula()">Cancelar edição</button>
+    <p class="form-msg" id="msg-matricula"></p>
+  </div>
+
+  <div class="form-box reveal" id="clientes-cadastrados">
+    <h3>Clientes cadastrados</h3>
+    <p>Edite ou exclua um cadastro antes de confirmar seu plano.</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Plano</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-clientes">
+          <tr><td colspan="4" style="text-align:center; color:var(--muted);">Carregando clientes...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- UNIDADES -->
+<section id="unidades">
+  <div class="unidades-header reveal">
+    <span class="section-tag">Onde estamos</span>
+    <h2 class="section-title">Nossas unidades.</h2>
+    <p class="section-sub">Presente em Minas Gerais e em expansão para novas cidades.</p>
+  </div>
+  <div class="cards" id="cards-unidades">
+    <div class="skeleton card-skeleton"></div>
+    <div class="skeleton card-skeleton"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FRANQUIA -->
+<section id="franquia">
+  <div class="franquia-grid reveal">
+    <div class="franquia-info">
+      <span class="section-tag">Oportunidade</span>
+      <h2 class="section-title">Seja um franqueado.</h2>
+      <p class="section-sub">Estamos estruturando a expansão FitLens para novas regiões. Quer crescer junto com a próxima grande rede fitness do Brasil?</p>
+      <div class="franquia-numeros">
+        <div class="numero-item">
+          <div class="numero-val">R$0</div>
+          <div class="numero-label">taxa de consulta</div>
+        </div>
+        <div class="numero-item">
+          <div class="numero-val">100%</div>
+          <div class="numero-label">suporte operacional</div>
+        </div>
+      </div>
+      <div class="franquia-beneficios">
+        <div class="beneficio"><span>🏗️</span> Projeto arquitetônico padrão FitLens</div>
+        <div class="beneficio"><span>📋</span> Treinamento completo da equipe</div>
+        <div class="beneficio"><span>📣</span> Suporte de marketing nacional</div>
+        <div class="beneficio"><span>📊</span> Sistema de gestão integrado</div>
+      </div>
+    </div>
+
+    <div class="form-box" style="margin:0;">
+      <h3>Cadastre seu interesse</h3>
+      <p>Nos conte onde você quer abrir sua unidade FitLens.</p>
+      <div class="input-group">
+        <label>Seu nome</label>
+        <input id="fra-nome" type="text" placeholder="Nome completo">
+      </div>
+      <div class="input-group">
+        <label>Telefone</label>
+        <input id="fra-tel" type="text" placeholder="(31) 99999-9999">
+      </div>
+      <div class="input-group">
+        <label>Cidade de interesse</label>
+        <input id="fra-cidade" type="text" placeholder="Ex: Contagem - MG">
+      </div>
+      <button class="btn btn-full" onclick="enviarFranquia()">Enviar interesse →</button>
+      <p class="form-msg" id="msg-franquia"></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">FITLENS</div>
+  <p class="footer-copy">© 2026 FitLens — A nova geração de academias.</p>
+  <div class="footer-links">
+    <a href="#planos">Planos</a>
+    <a href="#unidades">Unidades</a>
+    <a href="#franquia">Franquia</a>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a class="whatsapp-float" href="https://wa.me/5599999999999" target="_blank">
+  <span>💬</span> WhatsApp
+</a>
+
+<script>
+const API = "http://localhost:5000";
+let matriculaEdicaoId = null;
+
+function atualizarBotaoMatricula() {
+  const botao = document.getElementById("mat-btn");
+  const cancelar = document.getElementById("mat-cancel");
+  if (matriculaEdicaoId) {
+    botao.textContent = "Salvar alterações";
+    cancelar.style.display = "inline-block";
+  } else {
+    botao.textContent = "Quero me matricular →";
+    cancelar.style.display = "none";
+  }
+}
+
+async function carregarClientes() {
+  try {
+    const res = await fetch(`${API}/clientes`);
+    const dados = await res.json();
+    const tbody = document.getElementById("lista-clientes");
+
+    if (!Array.isArray(dados) || dados.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">Nenhum cliente cadastrado ainda.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = dados.map(cliente => `
+      <tr>
+        <td>${cliente.nome}</td>
+        <td>${cliente.telefone}</td>
+        <td>${cliente.plano_nome ?? 'Plano não encontrado'}</td>
+        <td>
+          <button class="action-btn action-edit" onclick="editarCliente(${cliente.id_cliente})">Editar</button>
+          <button class="action-btn action-delete" onclick="excluirCliente(${cliente.id_cliente})">Excluir</button>
+        </td>
+      </tr>
+    `).join("");
+  } catch (e) {
+    document.getElementById("lista-clientes").innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted);">Erro ao carregar clientes.</td></tr>`;
+  }
+}
+
+async function editarCliente(id) {
+  try {
+    const res = await fetch(`${API}/clientes`);
+    const dados = await res.json();
+    const cliente = dados.find(item => item.id_cliente === id);
+    if (!cliente) return;
+
+    matriculaEdicaoId = id;
+    document.getElementById("mat-nome").value = cliente.nome;
+    document.getElementById("mat-tel").value = cliente.telefone;
+    document.getElementById("mat-plano").value = cliente.plano_id || "";
+    atualizarBotaoMatricula();
+    document.getElementById("msg-matricula").textContent = "Edição ativada. Atualize os dados ou cancele.";
+    document.getElementById("msg-matricula").className = "form-msg";
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function cancelarEdicaoMatricula() {
+  matriculaEdicaoId = null;
+  document.getElementById("mat-nome").value = "";
+  document.getElementById("mat-tel").value = "";
+  document.getElementById("mat-plano").value = "";
+  atualizarBotaoMatricula();
+  document.getElementById("msg-matricula").textContent = "Edição cancelada.";
+  document.getElementById("msg-matricula").className = "form-msg";
+}
+
+async function excluirCliente(id) {
+  if (!confirm("Deseja mesmo excluir este cliente?")) return;
+
+  try {
+    const res = await fetch(`${API}/matricula/${id}`, { method: "DELETE" });
+    const data = await res.json();
+    const msg = document.getElementById("msg-matricula");
+    if (res.ok) {
+      msg.textContent = "✅ " + data.mensagem;
+      msg.className = "form-msg success";
+      if (matriculaEdicaoId === id) cancelarEdicaoMatricula();
+      carregarClientes();
+    } else {
+      msg.textContent = "❌ " + (data.erro || "Não foi possível excluir.");
+      msg.className = "form-msg error";
+    }
+  } catch (e) {
+    const msg = document.getElementById("msg-matricula");
+    msg.textContent = "❌ Servidor offline. Verifique se o Flask está rodando.";
+    msg.className = "form-msg error";
+  }
+}
+
+/* ── Carregar Planos ── */
+async function carregarPlanos() {
+  try {
+    const res  = await fetch(`${API}/planos`);
+    const data = await res.json();
+
+    const cards  = document.getElementById("cards-planos");
+    const select = document.getElementById("mat-plano");
+
+    cards.innerHTML  = "";
+    select.innerHTML = '<option value="">Selecione seu plano</option>';
+
+    data.forEach((p, i) => {
+      const destaque = i === 1 ? 'destaque' : '';
+      const badge    = i === 1 ? '<span class="badge-destaque">⭐ Mais popular</span>' : '';
+      cards.innerHTML += `
+        <div class="card ${destaque} reveal">
+          ${badge}
+          <h3>${p.nome}</h3>
+          <p class="card-sub">${p.descricao ?? "Plano FitLens"}</p>
+          <div class="price">R$${parseFloat(p.preco).toFixed(2)}</div>
+          <p class="price-period">por mês</p>
+          <a href="#planos" class="btn" style="width:100%;text-align:center;" onclick="document.getElementById('mat-plano').value='${p.id_plano}'">
+            Escolher plano
+          </a>
+        </div>`;
+      select.innerHTML += `<option value="${p.id_plano}">${p.nome} — R$${parseFloat(p.preco).toFixed(2)}/mês</option>`;
+    });
+
+    observeReveal();
+  } catch (e) {
+    document.getElementById("cards-planos").innerHTML =
+      `<p style="color:var(--muted);text-align:center;width:100%">Não foi possível carregar os planos.<br>Verifique se o servidor Flask está rodando.</p>`;
+    document.getElementById("mat-plano").innerHTML = '<option value="">Servidor offline</option>';
+  }
+}
+
+/* ── Carregar Unidades ── */
+async function carregarUnidades() {
+  try {
+    const res  = await fetch(`${API}/unidades`);
+    const data = await res.json();
+
+    const cards = document.getElementById("cards-unidades");
+    cards.innerHTML = "";
+
+    data.forEach(u => {
+      cards.innerHTML += `
+        <div class="card-unidade reveal">
+          <div class="unidade-icon">📍</div>
+          <h3>${u.nome}</h3>
+          <p class="cidade">${u.cidade}</p>
+          <span class="estado-badge">${u.estado}</span>
+        </div>`;
+    });
+
+    // Card fixo "em expansão"
+    cards.innerHTML += `
+      <div class="card-unidade reveal" style="border-style:dashed;">
+        <div class="unidade-icon">🚀</div>
+        <h3>Em Expansão</h3>
+        <p class="cidade">Novas cidades em breve</p>
+        <span class="estado-badge">Em breve</span>
+      </div>`;
+
+    observeReveal();
+  } catch (e) {
+    document.getElementById("cards-unidades").innerHTML =
+      `<p style="color:var(--muted);text-align:center;width:100%">Servidor offline.</p>`;
+  }
+}
+
+/* ── Enviar Matrícula ── */
+async function enviarMatricula() {
+  const nome     = document.getElementById("mat-nome").value.trim();
+  const telefone = document.getElementById("mat-tel").value.trim();
+  const plano_id = document.getElementById("mat-plano").value;
+  const msg      = document.getElementById("msg-matricula");
+
+  if (!nome || !telefone || !plano_id) {
+    msg.textContent = "⚠️ Preencha todos os campos.";
+    msg.className   = "form-msg error";
+    return;
+  }
+
+  msg.textContent = "Enviando...";
+  msg.className   = "form-msg";
+
+  try {
+    const metodo = matriculaEdicaoId ? "PUT" : "POST";
+    const url = matriculaEdicaoId ? `${API}/matricula/${matriculaEdicaoId}` : `${API}/matricula`;
+
+    const res  = await fetch(url, {
+      method: metodo,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, telefone, plano_id })
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      msg.textContent = "✅ " + data.mensagem;
+      msg.className   = "form-msg success";
+      document.getElementById("mat-nome").value  = "";
+      document.getElementById("mat-tel").value   = "";
+      document.getElementById("mat-plano").value = "";
+      matriculaEdicaoId = null;
+      atualizarBotaoMatricula();
+      carregarClientes();
+    } else {
+      msg.textContent = "❌ " + (data.erro ?? "Erro ao enviar.");
+      msg.className   = "form-msg error";
+    }
+  } catch (e) {
+    msg.textContent = "❌ Servidor offline. Verifique se o Flask está rodando.";
+    msg.className   = "form-msg error";
+  }
+}
+
+/* ── Enviar Franquia ── */
+async function enviarFranquia() {
+  const nome             = document.getElementById("fra-nome").value.trim();
+  const telefone         = document.getElementById("fra-tel").value.trim();
+  const cidade_interesse = document.getElementById("fra-cidade").value.trim();
+  const msg              = document.getElementById("msg-franquia");
+
+  if (!nome || !telefone || !cidade_interesse) {
+    msg.textContent = "⚠️ Preencha todos os campos.";
+    msg.className   = "form-msg error";
+    return;
+  }
+
+  msg.textContent = "Enviando...";
+  msg.className   = "form-msg";
+
+  try {
+    const res  = await fetch(`${API}/franquia`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, telefone, cidade_interesse })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      msg.textContent = "✅ " + data.mensagem;
+      msg.className   = "form-msg success";
+      document.getElementById("fra-nome").value   = "";
+      document.getElementById("fra-tel").value    = "";
+      document.getElementById("fra-cidade").value = "";
+    } else {
+      msg.textContent = "❌ " + (data.erro ?? "Erro ao enviar.");
+      msg.className   = "form-msg error";
+    }
+  } catch (e) {
+    msg.textContent = "❌ Servidor offline. Verifique se o Flask está rodando.";
+    msg.className   = "form-msg error";
+  }
+}
+
+/* ── Menu mobile ── */
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("active");
+}
+
+/* ── Scroll reveal ── */
+function observeReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ── Init ── */
+window.addEventListener('DOMContentLoaded', () => {
+  carregarPlanos();
+  carregarUnidades();
+  carregarClientes();
+  observeReveal();
+});
+</script>
+
+</body>
+</html>

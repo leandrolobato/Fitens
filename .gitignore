@@ -1,0 +1,13 @@
+# Ignore Python virtual environments
+visual G(codigo)/.venv/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# OS files
+.DS_Store
+
+# Visual Studio Code
+.vscode/
