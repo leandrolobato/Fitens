@@ -22,6 +22,8 @@
 
 * { margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
 
+html { scroll-padding-top: 100px; }
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -49,6 +51,22 @@ header {
   transition: padding 0.3s;
 }
 
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1100;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: var(--green);
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform 0.2s;
+}
+.skip-link:focus { transform: translateY(0); }
+
 .logo {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 28px;
@@ -56,7 +74,7 @@ header {
   color: var(--green);
 }
 
-nav { display: flex; align-items: center; gap: 36px; }
+nav { display: flex; align-items: center; gap: 24px; }
 
 nav a {
   color: var(--muted);
@@ -65,11 +83,31 @@ nav a {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  transition: color 0.25s;
+  transition: color 0.25s, background 0.25s, border-color 0.25s, transform 0.2s;
 }
 nav a:hover { color: var(--green); }
+.nav-cta {
+  padding: 11px 18px;
+  border: 1px solid rgba(0,255,136,0.35);
+  border-radius: 999px;
+  color: var(--green);
+}
+nav .nav-cta:hover { background: var(--green); color: #000; transform: translateY(-1px); }
+nav .nav-admin { font-size: 11px; opacity: 0.75; }
 
-.menu-mobile { display: none; font-size: 26px; cursor: pointer; color: var(--text); background: none; border: none; }
+.menu-mobile {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text);
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  transition: color 0.2s, background 0.2s, transform 0.2s;
+}
+.menu-mobile:hover { color: var(--green); background: rgba(0,255,136,0.08); }
+.menu-mobile:active { transform: scale(0.94); }
 
 /* ── HERO ── */
 .hero {
@@ -158,6 +196,12 @@ nav a:hover { color: var(--green); }
   background: #fff;
   transform: translateY(-2px);
   box-shadow: 0 0 40px rgba(0,255,136,0.35);
+}
+.btn:active, .btn-outline:active { transform: translateY(1px) scale(0.98); }
+.btn:focus-visible, .btn-outline:focus-visible, nav a:focus-visible,
+.menu-mobile:focus-visible, .action-btn:focus-visible, .floating-cta:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 4px;
 }
 
 .btn-outline {
@@ -256,6 +300,7 @@ tbody tr:hover {
 .action-btn:hover {
   transform: translateY(-1px);
 }
+.action-btn:active { transform: scale(0.96); }
 
 .action-edit { background: rgba(0,255,136,0.14); color: var(--green); }
 .action-delete { background: rgba(255,255,255,0.08); color: #ff6b6b; }
@@ -372,6 +417,7 @@ tbody tr:hover {
   border-radius: 24px;
   padding: 48px 44px;
 }
+#matricula { scroll-margin-top: 100px; }
 .form-box h3 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 28px;
@@ -510,7 +556,7 @@ footer {
 .footer-links a:hover { color:var(--green); }
 
 /* ── WHATSAPP FLOAT ── */
-.whatsapp-float {
+.floating-cta {
   position: fixed;
   bottom: 28px; right: 28px;
   background: var(--green);
@@ -524,8 +570,9 @@ footer {
   transition: transform 0.25s, box-shadow 0.25s;
   z-index: 999;
   display: flex; align-items:center; gap:8px;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
 }
-.whatsapp-float:hover { transform: scale(1.07); box-shadow: 0 12px 40px rgba(0,255,136,0.5); }
+.floating-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,255,136,0.5); background: #fff; }
 
 /* ── DIVIDER ── */
 .divider {
@@ -553,35 +600,56 @@ footer {
   .sobre-img { max-height:300px; }
 }
 
-@media(max-width:768px) {
-  nav { display:none; flex-direction:column; background:#0d0d0d; border:1px solid var(--border); position:absolute; top:70px; right:8%; width:200px; padding:20px; border-radius:16px; gap:16px; }
+@media(max-width:860px) {
+  nav { display:none; flex-direction:column; align-items:stretch; background:#0d0d0d; border:1px solid var(--border); position:absolute; top:calc(100% + 10px); right:6%; width:min(280px, 88vw); padding:14px; border-radius:16px; gap:4px; box-shadow:0 18px 45px rgba(0,0,0,0.55); }
   nav.active { display:flex; }
+  nav a { padding:12px 14px; }
+  nav .nav-cta { text-align:center; margin-top:6px; }
   .menu-mobile { display:block; }
   header { padding:16px 6%; }
   section { padding:80px 6%; }
   .hero-stats { gap:30px; flex-wrap:wrap; }
   .form-box { padding:32px 24px; }
   footer { flex-direction:column; text-align:center; }
+  .footer-links { flex-wrap:wrap; justify-content:center; }
+}
+
+@media(max-width:768px) {
+  .floating-cta { bottom:16px; right:16px; padding:12px 17px; }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior:auto !important;
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
 }
 </style>
 </head>
 
 <body>
 
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
 <!-- HEADER -->
 <header>
-  <div class="logo">FITLENS</div>
-  <button class="menu-mobile" onclick="toggleMenu()" aria-label="Menu">☰</button>
-  <nav id="menu">
+  <a class="logo" href="#inicio" aria-label="FitLens - início">FITLENS</a>
+  <button class="menu-mobile" type="button" onclick="toggleMenu()" aria-label="Abrir menu" aria-controls="menu" aria-expanded="false">☰</button>
+  <nav id="menu" aria-label="Navegação principal">
+    <a href="#inicio">Início</a>
     <a href="#sobre">Sobre</a>
     <a href="#planos">Planos</a>
     <a href="#unidades">Unidades</a>
     <a href="#franquia">Franquia</a>
+    <a href="#matricula" class="nav-cta">Matricule-se</a>
   </nav>
 </header>
 
+<main id="conteudo">
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="inicio">
   <div class="hero-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
@@ -667,7 +735,7 @@ footer {
   </div>
 
   <!-- Formulário de Matrícula -->
-  <div class="form-box reveal">
+  <div class="form-box reveal" id="matricula">
     <h3>Matricule-se agora</h3>
     <p>Preencha abaixo e entraremos em contato para confirmar sua vaga.</p>
     <div class="input-group">
@@ -773,20 +841,24 @@ footer {
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">FITLENS</div>
   <p class="footer-copy">© 2026 FitLens — A nova geração de academias.</p>
   <div class="footer-links">
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
     <a href="#planos">Planos</a>
     <a href="#unidades">Unidades</a>
     <a href="#franquia">Franquia</a>
+    <a href="/admin/login">Admin</a>
   </div>
 </footer>
 
-<!-- WHATSAPP FLOAT -->
-<a class="whatsapp-float" href="https://wa.me/5599999999999" target="_blank">
-  <span>💬</span> WhatsApp
+<a class="floating-cta" href="#matricula">
+  <span aria-hidden="true">💪</span> Matricule-se
 </a>
 
 <script>
@@ -906,7 +978,7 @@ async function carregarPlanos() {
           <p class="card-sub">${p.descricao ?? "Plano FitLens"}</p>
           <div class="price">R$${parseFloat(p.preco).toFixed(2)}</div>
           <p class="price-period">por mês</p>
-          <a href="#planos" class="btn" style="width:100%;text-align:center;" onclick="document.getElementById('mat-plano').value='${p.id_plano}'">
+          <a href="#matricula" class="btn" style="width:100%;text-align:center;" onclick="document.getElementById('mat-plano').value='${p.id_plano}'">
             Escolher plano
           </a>
         </div>`;
@@ -1043,7 +1115,14 @@ async function enviarFranquia() {
 
 /* ── Menu mobile ── */
 function toggleMenu() {
-  document.getElementById("menu").classList.toggle("active");
+  const menu = document.getElementById("menu");
+  const toggle = document.querySelector(".menu-mobile");
+  if (!menu || !toggle) return;
+
+  const isOpen = menu.classList.toggle("active");
+  toggle.setAttribute("aria-expanded", String(isOpen));
+  toggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+  toggle.textContent = isOpen ? "×" : "☰";
 }
 
 /* ── Scroll reveal ── */
@@ -1056,6 +1135,23 @@ function observeReveal() {
 
 /* ── Init ── */
 window.addEventListener('DOMContentLoaded', () => {
+  const menu = document.getElementById("menu");
+  const menuToggle = document.querySelector(".menu-mobile");
+  menu?.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      if (menu.classList.contains("active")) toggleMenu();
+    });
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && menu?.classList.contains("active")) toggleMenu();
+  });
+  document.addEventListener("click", event => {
+    if (menu?.classList.contains("active") &&
+        !menu.contains(event.target) &&
+        !menuToggle?.contains(event.target)) {
+      toggleMenu();
+    }
+  });
   carregarPlanos();
   carregarUnidades();
   carregarClientes();

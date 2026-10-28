@@ -222,7 +222,7 @@ font-size:34px;
 <div>
 <h1>A nova geração de academias.</h1>
 <p>Plano fundador a partir de R$115/mês • Estrutura moderna • Expansão nacional</p>
-<a href="https://wa.me/5599999999999" class="btn">Quero ser aluno fundador</a>
+<a href="#planos" class="btn">Ver planos disponíveis</a>
 </div>
 </section>
 
@@ -271,7 +271,7 @@ Estamos estruturando a expansão FitLens para novas regiões. Quer crescer junto
 © 2026 FitLens - A nova geração de academias.
 </footer>
 
-<a class="whatsapp-float" href="https://wa.me/5599999999999">WhatsApp</a>
+<a class="whatsapp-float" href="/#matricula">Matricule-se no site atualizado</a>
 
 <script>
 const URL_API = "http://localhost:5000";
@@ -292,7 +292,7 @@ async function carregarPlanos() {
         <h3>${plano.nome}</h3>
         <div class="price">R$${parseFloat(plano.preco).toFixed(2)}/mês</div>
         <p>${plano.descricao || ''}</p>
-        <a href="https://wa.me/5599999999999?text=Olá, quero me matricular no ${plano.nome}" class="btn">Quero este plano</a>
+        <a href="/#planos" class="btn">Escolher no site atualizado</a>
       </div>
     `).join('');
   } catch (error) {
